@@ -1,3 +1,5 @@
+import { SharedData } from '@/types';
+import { usePage } from '@inertiajs/react';
 import { useCallback, useEffect, useState } from 'react';
 
 export type Appearance = 'light' | 'dark' | 'system';
@@ -35,50 +37,59 @@ const mediaQuery = () => {
     return window.matchMedia('(prefers-color-scheme: dark)');
 };
 
-const handleSystemThemeChange = () => {
-    const currentAppearance = localStorage.getItem('appearance') as Appearance;
-    applyTheme(currentAppearance || 'system');
-};
-
-export function initializeTheme() {
+export function initializeTheme(panel: string) {
+    const storageKey = `${panel}_appearance`;
     const savedAppearance =
-        (localStorage.getItem('appearance') as Appearance) || 'system';
+        (localStorage.getItem(storageKey) as Appearance) || 'system';
 
     applyTheme(savedAppearance);
 
+    const query = mediaQuery();
+    if (!query) {
+        return;
+    }
+
+    const handleSystemThemeChange = () => {
+        const currentAppearance = localStorage.getItem(
+            storageKey,
+        ) as Appearance | null;
+        applyTheme(currentAppearance || 'system');
+    };
+
     // Add the event listener for system theme changes...
-    mediaQuery()?.addEventListener('change', handleSystemThemeChange);
+    query.addEventListener('change', handleSystemThemeChange);
 }
 
 export function useAppearance() {
     const [appearance, setAppearance] = useState<Appearance>('system');
+    const { panel } = usePage<SharedData>().props;
+    const storageKey = `${panel}_appearance`;
 
     const updateAppearance = useCallback((mode: Appearance) => {
         setAppearance(mode);
 
         // Store in localStorage for client-side persistence...
-        localStorage.setItem('appearance', mode);
+        localStorage.setItem(storageKey, mode);
 
         // Store in cookie for SSR...
-        setCookie('appearance', mode);
+        setCookie(storageKey, mode);
 
         applyTheme(mode);
-    }, []);
+    }, [storageKey]);
 
     useEffect(() => {
         const savedAppearance = localStorage.getItem(
-            'appearance',
+            storageKey,
         ) as Appearance | null;
 
         // eslint-disable-next-line react-hooks/set-state-in-effect
         updateAppearance(savedAppearance || 'system');
 
         return () =>
-            mediaQuery()?.removeEventListener(
-                'change',
-                handleSystemThemeChange,
-            );
-    }, [updateAppearance]);
+            mediaQuery()?.removeEventListener('change', () => {
+                /* no-op cleanup */
+            });
+    }, [storageKey, updateAppearance]);
 
     return { appearance, updateAppearance } as const;
 }

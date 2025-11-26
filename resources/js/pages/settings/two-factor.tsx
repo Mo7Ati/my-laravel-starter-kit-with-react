@@ -6,8 +6,8 @@ import { Button } from '@/components/ui/button';
 import { useTwoFactorAuth } from '@/hooks/use-two-factor-auth';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
-import { type BreadcrumbItem } from '@/types';
-import { Form, Head } from '@inertiajs/react';
+import { SharedData, type BreadcrumbItem } from '@/types';
+import { Form, Head, usePage } from '@inertiajs/react';
 import { ShieldBan, ShieldCheck } from 'lucide-react';
 import { useState } from 'react';
 
@@ -16,17 +16,19 @@ interface TwoFactorProps {
     twoFactorEnabled?: boolean;
 }
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Two-Factor Authentication',
-        href: '/admin/settings/two-factor',
-    },
-];
-
 export default function TwoFactor({
     requiresConfirmation = false,
     twoFactorEnabled = false,
 }: TwoFactorProps) {
+    const { panel } = usePage<SharedData>().props;
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: 'Two-Factor Authentication',
+            href: `/${panel}/settings/two-factor`,
+        },
+    ];
+
     const {
         qrCodeSvg,
         hasSetupData,
@@ -38,7 +40,6 @@ export default function TwoFactor({
         errors,
     } = useTwoFactorAuth();
     const [showSetupModal, setShowSetupModal] = useState<boolean>(false);
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Two-Factor Authentication" />
@@ -65,7 +66,7 @@ export default function TwoFactor({
                             />
 
                             <div className="relative inline">
-                                <Form method="post" action={'/admin/settings/two-factor/disable'}>
+                                <Form method="post" action={`/${panel}/settings/two-factor/disable`}>
                                     {({ processing }) => (
                                         <Button
                                             variant="destructive"
@@ -99,7 +100,7 @@ export default function TwoFactor({
                                 ) : (
                                     <Form
                                         method="post"
-                                        action={'/admin/settings/two-factor/enable'}
+                                        action={`/${panel}/settings/two-factor/enable`}
                                         onSuccess={() =>
                                             setShowSetupModal(true)
                                         }

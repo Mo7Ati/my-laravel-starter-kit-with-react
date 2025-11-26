@@ -28,10 +28,9 @@ import {
 } from '@/components/ui/tooltip';
 import { UserMenuContent } from '@/components/user-menu-content';
 import { useInitials } from '@/hooks/use-initials';
-import { cn, isSameUrl, resolveUrl } from '@/lib/utils';
+import { cn, getPanelNavItems, isSameUrl, resolveUrl } from '@/lib/utils';
 import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { getIconByName } from '@/lib/icon-mapper';
 import { BookOpen, Folder, Menu, Search } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
@@ -58,15 +57,10 @@ interface AppHeaderProps {
 
 export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
     const page = usePage<SharedData>();
-    const { auth, panel, navigationItems } = page.props;
+    const { auth, panel } = page.props;
+    const mainNavItems: NavItem[] = getPanelNavItems(panel);
     const getInitials = useInitials();
 
-    // Map backend navigation items to frontend NavItem format with icon components
-    const mainNavItems: NavItem[] = (navigationItems || []).map((item) => ({
-        title: item.title,
-        href: item.href,
-        icon: typeof item.icon === 'string' ? getIconByName(item.icon) : item.icon,
-    }));
 
     const dashboardUrl = panel === 'admin' ? '/admin' : panel === 'store' ? '/store' : '/dashboard';
 

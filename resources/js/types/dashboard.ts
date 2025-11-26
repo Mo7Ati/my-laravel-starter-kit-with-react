@@ -1,1 +1,4 @@
-type PanelType = 'admin' | 'store' | 'default';
+export enum PanelType {
+    ADMIN = 'admin',
+    STORE = 'store',
+}

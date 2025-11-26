@@ -8,9 +8,10 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Translatable\HasTranslations;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 class Admin extends Authenticatable
 {
-    use HasFactory, Notifiable, HasTranslations;//, HasRoles, ;
+    use HasFactory, Notifiable, HasTranslations, TwoFactorAuthenticatable;//, HasRoles, ;
 
     protected $guard = ['admin'];
     protected $fillable = [

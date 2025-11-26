@@ -11,22 +11,12 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { SharedData, type NavItem } from '@/types';
-import { getIconByName } from '@/lib/icon-mapper';
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, Folder } from 'lucide-react';
+import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
 import AppLogo from './app-logo';
+import { getPanelNavItems } from '@/lib/utils';
+import { PanelType } from '@/types/dashboard';
 
-// Helper function to get dashboard URL based on current panel
-function getDashboardUrl(panel: string): string {
-    switch (panel) {
-        case 'admin':
-            return '/admin';
-        case 'store':
-            return '/store';
-        default:
-            return '/dashboard';
-    }
-}
 
 const footerNavItems: NavItem[] = [
     {
@@ -43,16 +33,10 @@ const footerNavItems: NavItem[] = [
 
 export function AppSidebar() {
     const page = usePage<SharedData>();
-    const { panel, navigationItems } = page.props;
+    const { auth, panel } = page.props;
+    const mainNavItems: NavItem[] = getPanelNavItems(panel);
 
-    // Map backend navigation items to frontend NavItem format with icon components
-    const navItems: NavItem[] = (navigationItems || []).map((item) => ({
-        title: item.title,
-        href: item.href,
-        icon: typeof item.icon === 'string' ? getIconByName(item.icon) : item.icon,
-    }));
-
-    const dashboardUrl = getDashboardUrl(panel || 'default');
+    const dashboardUrl = panel === PanelType.ADMIN ? '/admin' : panel === PanelType.STORE ? '/store' : '/dashboard';
 
     return (
         <Sidebar collapsible="icon" variant="inset">
@@ -69,7 +53,7 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={navItems} />
+                <NavMain items={mainNavItems} />
             </SidebarContent>
 
             <SidebarFooter>

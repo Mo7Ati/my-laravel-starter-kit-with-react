@@ -16,7 +16,7 @@ class PasswordController extends Controller
      */
     public function edit(): Response
     {
-        return Inertia::render(getPanel() . '/settings/password');
+        return Inertia::render( 'settings/password');
     }
 
     /**
@@ -33,6 +33,6 @@ class PasswordController extends Controller
             'password' => $validated['password'],
         ]);
 
-        return to_route(getPanel() . '.password.edit');
+        return to_route( getPanel() . '.user-password.edit');
     }
 }

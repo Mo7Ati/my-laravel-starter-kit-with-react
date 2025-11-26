@@ -26,7 +26,7 @@ export interface SharedData {
     name: string;
     quote: { message: string; author: string };
     auth: Auth;
-    panel: string;
+    panel: PanelType;
     navigationItems: NavItem[];
     sidebarOpen: boolean;
     [key: string]: unknown;

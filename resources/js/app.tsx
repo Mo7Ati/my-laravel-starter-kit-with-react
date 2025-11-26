@@ -18,6 +18,13 @@ createInertiaApp({
     setup({ el, App, props }) {
         const root = createRoot(el);
 
+        // Determine current panel from initial Inertia props
+        // so each panel can have its own appearance configuration.
+        // @ts-expect-error Inertia types for props.initialPage may vary
+        const panel: string = props.initialPage?.props?.panel ?? 'default';
+
+        initializeTheme(panel);
+
         root.render(
             <StrictMode>
                 <App {...props} />
@@ -28,6 +35,3 @@ createInertiaApp({
         color: '#4B5563',
     },
 });
-
-// This will set light / dark mode on load...
-initializeTheme();
