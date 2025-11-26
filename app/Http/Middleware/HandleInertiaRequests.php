@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use App\Http\Resources\AuthenticatableResource;
-use App\Services\NavigationService;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -38,7 +37,6 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         $panel = getPanel();
-        $navigationService = new NavigationService();
 
         return [
             ...parent::share($request),
@@ -47,7 +45,6 @@ class HandleInertiaRequests extends Middleware
                 'user' =>  $request->user() ? AuthenticatableResource::make($request->user()) : null,
             ],
             'panel' => $panel,
-            'navigationItems' => $navigationService->getNavigationItems($panel),
             'sidebarOpen' => !$request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];
     }

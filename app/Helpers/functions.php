@@ -1,21 +1,23 @@
 <?php
 
-function getPanel(): string
+use App\Enums\PanelsEnum;
+
+function getPanel(): string|null
 {
     if (isAdminPanel()) {
-        return 'admin';
+        return PanelsEnum::ADMIN->value;
     }
     if (isStorePanel()) {
-        return 'store';
+        return PanelsEnum::STORE->value;
     }
-    return 'default';
+    return null;
 }
 function isAdminPanel(): bool
 {
-    return request()->is(['admin', 'admin/*']);
+    return request()->is([PanelsEnum::ADMIN->value, PanelsEnum::ADMIN->value . '/*']);
 }
 
 function isStorePanel(): bool
 {
-    return request()->is(['store', 'store/*']);
+    return request()->is([PanelsEnum::STORE->value, PanelsEnum::STORE->value . '/*']);
 }

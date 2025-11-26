@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
+use App\Enums\PanelsEnum;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -20,16 +21,20 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        if (request()->is(['admin', 'admin/*'])) {
-            config(['fortify.guard' => 'admin']);
-            config(['fortify.home' => 'admin']);
-            config(['fortify.passwords' => 'admins']);
-            config(['fortify.prefix' => 'admin']);
-        } elseif (request()->is(['store', 'store/*'])) {
-            config(['fortify.guard' => 'store']);
-            config(['fortify.home' => 'store']);
-            config(['fortify.passwords' => 'stores']);
-            config(['fortify.prefix' => 'store']);
+        if (isAdminPanel()) {
+            config([
+                'fortify.guard' => 'admin',
+                'fortify.home' => 'admin',
+                'fortify.passwords' => 'admins',
+                'fortify.prefix' => 'admin',
+            ]);
+        } elseif (isStorePanel()) {
+            config([
+                'fortify.guard' => 'store',
+                'fortify.home' => 'store',
+                'fortify.passwords' => 'stores',
+                'fortify.prefix' => 'store',
+            ]);
         }
     }
 
@@ -119,17 +124,9 @@ class FortifyServiceProvider extends ServiceProvider
 
     private function view(string $page): string
     {
-        $path = request()->path();
-
-        if (str_starts_with($path, 'admin')) {
-            return "admin/auth/{$page}";
+        if (getPanel() === null) {
+            abort(404);
         }
-
-        if (str_starts_with($path, 'store')) {
-            return "store/auth/{$page}";
-        }
-
-        return "auth/{$page}";
+        return getPanel() . "/auth/{$page}";
     }
-
 }
