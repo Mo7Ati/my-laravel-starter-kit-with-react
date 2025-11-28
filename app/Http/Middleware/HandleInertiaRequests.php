@@ -42,9 +42,14 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'name' => config('app.name'),
             'auth' => [
-                'user' =>  $request->user() ? AuthenticatableResource::make($request->user()) : null,
+                'user' => $request->user() ? AuthenticatableResource::make($request->user()) : null,
             ],
             'panel' => $panel,
+            'locales' => [
+                'ar' => "العربية",
+                'en' => "English"
+            ],
+            'currentLocale' => app()->getLocale(),
             'sidebarOpen' => !$request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];
     }

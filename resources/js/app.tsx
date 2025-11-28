@@ -5,6 +5,9 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { initializeTheme } from './hooks/use-appearance';
+import './i18n';
+import { PanelType } from './types/dashboard';
+import { changeLanguage } from 'i18next';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -17,13 +20,10 @@ createInertiaApp({
         ),
     setup({ el, App, props }) {
         const root = createRoot(el);
+        const { currentLocale, panel } = props.initialPage?.props ?? {};
 
-        // Determine current panel from initial Inertia props
-        // so each panel can have its own appearance configuration.
-        // @ts-expect-error Inertia types for props.initialPage may vary
-        const panel: string = props.initialPage?.props?.panel ?? 'default';
-
-        initializeTheme(panel);
+        initializeTheme(panel as PanelType);
+        changeLanguage(currentLocale as string);
 
         root.render(
             <StrictMode>

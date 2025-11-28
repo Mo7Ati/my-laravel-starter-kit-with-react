@@ -5,31 +5,33 @@ import { cn, isSameUrl, resolveUrl } from '@/lib/utils';
 import { SharedData, type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import { type PropsWithChildren } from 'react';
+import { useTranslation } from 'react-i18next';
 
 
 
 export default function SettingsLayout({ children }: PropsWithChildren) {
     const page = usePage<SharedData>();
     const { panel } = page.props;
+    const { t } = useTranslation();
 
     const sidebarNavItems: NavItem[] = [
         {
-            title: 'Profile',
+            title: t('common.profile'),
             href: `/${panel}/settings/profile`,
             icon: null,
         },
         {
-            title: 'Password',
+            title: t('common.password'),
             href: `/${panel}/settings/password`,
             icon: null,
         },
         {
-            title: 'Two-Factor Auth',
+            title: t('common.two_factor_auth'),
             href: `/${panel}/settings/two-factor`,
             icon: null,
         },
         {
-            title: 'Appearance',
+            title: t('common.appearance'),
             href: `/${panel}/settings/appearance`,
             icon: null,
         },
@@ -45,8 +47,8 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
     return (
         <div className="px-4 py-6">
             <Heading
-                title="Settings"
-                description="Manage your profile and account settings"
+                title={t('common.settings')}
+                description={t('settings.description')}
             />
 
             <div className="flex flex-col lg:flex-row lg:space-x-12">

@@ -1,4 +1,5 @@
 import { SharedData } from '@/types';
+import { PanelType } from '@/types/dashboard';
 import { usePage } from '@inertiajs/react';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -37,7 +38,7 @@ const mediaQuery = () => {
     return window.matchMedia('(prefers-color-scheme: dark)');
 };
 
-export function initializeTheme(panel: string) {
+export function initializeTheme(panel: PanelType) {
     const storageKey = `${panel}_appearance`;
     const savedAppearance =
         (localStorage.getItem(storageKey) as Appearance) || 'system';

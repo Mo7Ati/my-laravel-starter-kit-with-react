@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -39,4 +40,15 @@ Route::middleware(['auth:store'])->group(function () {
     })->name('store.dashboard');
 });
 
+Route::get('language/{locale}', function ($locale) {
+    $supportedLocales = config('app.supported_locales');
+
+    if (!in_array($locale, $supportedLocales)) {
+        $locale = config('app.locale', 'en');
+    }
+
+    app()->setLocale($locale);
+    
+    return redirect()->back()->withCookie(cookie('locale', $locale, 60 * 24 * 365));
+});
 require __DIR__ . '/settings.php';

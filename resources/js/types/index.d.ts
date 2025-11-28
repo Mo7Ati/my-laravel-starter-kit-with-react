@@ -1,5 +1,6 @@
 import { InertiaLinkProps } from '@inertiajs/react';
 import { LucideIcon } from 'lucide-react';
+import { PanelType } from './dashboard';
 
 export interface Auth {
     user: User;
@@ -27,6 +28,8 @@ export interface SharedData {
     quote: { message: string; author: string };
     auth: Auth;
     panel: PanelType;
+    locales: Record<string, string>;
+    currentLocale: Locale;
     navigationItems: NavItem[];
     sidebarOpen: boolean;
     [key: string]: unknown;
@@ -42,4 +45,14 @@ export interface User {
     created_at: string;
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
+}
+
+export enum PanelType {
+    ADMIN = 'admin',
+    STORE = 'store',
+}
+
+export enum Locale {
+    AR = 'ar',
+    EN = 'en',
 }
