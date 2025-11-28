@@ -52,7 +52,4 @@ export enum PanelType {
     STORE = 'store',
 }
 
-export enum Locale {
-    AR = 'ar',
-    EN = 'en',
-}
+export type Locale = 'ar' | 'en';

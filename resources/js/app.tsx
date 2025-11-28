@@ -24,6 +24,7 @@ createInertiaApp({
 
         initializeTheme(panel as PanelType);
         changeLanguage(currentLocale as string);
+        document.documentElement.setAttribute('dir', currentLocale === 'ar' ? 'rtl' : 'ltr');
 
         root.render(
             <StrictMode>

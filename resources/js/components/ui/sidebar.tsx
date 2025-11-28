@@ -506,6 +506,11 @@ function SidebarMenuButton({
   const Comp = asChild ? Slot : "button"
   const { isMobile, state } = useSidebar()
 
+  // Detect RTL by checking document direction
+  const isRTL = typeof document !== 'undefined' && document.documentElement.getAttribute('dir') === 'rtl'
+  // When sidebar is on right (RTL), tooltip should be on left, and vice versa
+  const tooltipSide = isRTL ? 'left' : 'right'
+
   const button = (
     <Comp
       data-slot="sidebar-menu-button"
@@ -531,7 +536,7 @@ function SidebarMenuButton({
     <Tooltip>
       <TooltipTrigger asChild>{button}</TooltipTrigger>
       <TooltipContent
-        side="right"
+        side={tooltipSide}
         align="center"
         hidden={state !== "collapsed" || isMobile}
         {...tooltip}

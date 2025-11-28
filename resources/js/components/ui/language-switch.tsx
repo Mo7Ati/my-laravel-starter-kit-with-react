@@ -16,11 +16,8 @@ const LanguageSwitch = () => {
     const { i18n } = useTranslation();
 
     const handleLanguageChange = (locale: string) => {
-        // Change the language in the browser
-        i18n.changeLanguage(locale);
-
-        // Redirect to the language route
-        router.get(`/language/${locale}`);
+        // Fully reload the page by redirecting to the language route
+        window.location.href = `/language/${locale}`;
     };
 
     return (
