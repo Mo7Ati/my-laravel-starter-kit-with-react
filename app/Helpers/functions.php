@@ -1,23 +1,20 @@
 <?php
 
 use App\Enums\PanelsEnum;
+use Illuminate\Support\Str;
 
-function getPanel(): string|null
+function getPanel()
 {
-    if (isAdminPanel()) {
-        return PanelsEnum::ADMIN->value;
-    }
-    if (isStorePanel()) {
-        return PanelsEnum::STORE->value;
+    $path = request()->path();
+
+    foreach (PanelsEnum::cases() as $panel) {
+        if (Str::startsWith($path, $panel->value)) {
+            return $panel->value;
+        }
     }
     return null;
 }
 function isAdminPanel(): bool
 {
     return request()->is([PanelsEnum::ADMIN->value, PanelsEnum::ADMIN->value . '/*']);
-}
-
-function isStorePanel(): bool
-{
-    return request()->is([PanelsEnum::STORE->value, PanelsEnum::STORE->value . '/*']);
 }

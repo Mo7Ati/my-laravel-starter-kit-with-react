@@ -16,7 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->encryptCookies(except: ['admin_appearance', 'store_appearance', 'sidebar_state', 'locale']);
+        $middleware->encryptCookies(except: ['admin_appearance', 'sidebar_state', 'locale']);
 
         $middleware->web(append: [
             HandleLocale::class,
@@ -25,7 +25,7 @@ return Application::configure(basePath: dirname(__DIR__))
             AddLinkHeadersForPreloadedAssets::class,
         ]);
 
-        $middleware->redirectUsersTo(fn() => isAdminPanel() ? route('admin.dashboard') : route('store.dashboard'));
+        $middleware->redirectUsersTo(fn(Request $request) => route(getPanel() . '.dashboard'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

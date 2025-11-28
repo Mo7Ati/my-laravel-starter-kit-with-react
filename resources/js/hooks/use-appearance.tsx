@@ -1,5 +1,5 @@
 import { SharedData } from '@/types';
-import { PanelType } from '@/types/dashboard';
+import { PanelType } from '@/types';
 import { usePage } from '@inertiajs/react';
 import { useCallback, useEffect, useState } from 'react';
 

@@ -61,9 +61,6 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
     const mainNavItems: NavItem[] = getPanelNavItems(panel);
     const getInitials = useInitials();
 
-
-    const dashboardUrl = panel === 'admin' ? '/admin' : panel === 'store' ? '/store' : '/dashboard';
-
     return (
         <>
             <div className="border-b border-sidebar-border/80">
@@ -136,7 +133,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                     </div>
 
                     <Link
-                        href={dashboardUrl}
+                        href={`/${panel}`}
                         prefetch
                         className="flex items-center space-x-2"
                     >

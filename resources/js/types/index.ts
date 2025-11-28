@@ -1,6 +1,5 @@
 import { InertiaLinkProps } from '@inertiajs/react';
 import { LucideIcon } from 'lucide-react';
-import { PanelType } from './dashboard';
 
 export interface Auth {
     user: User;
@@ -49,7 +48,6 @@ export interface User {
 
 export enum PanelType {
     ADMIN = 'admin',
-    STORE = 'store',
 }
 
 export type Locale = 'ar' | 'en';

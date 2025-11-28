@@ -26,20 +26,6 @@ Route::prefix('admin')
     ->middleware(['auth:admin'])
     ->group($settingsRoutes);
 
-
-// Store routes
-Route::prefix('store')
-    ->name('store.')
-    ->middleware(['auth:store'])
-    ->group($settingsRoutes);
-
-
-Route::middleware(['auth:store'])->group(function () {
-    Route::get('store', function () {
-        return Inertia::render('store/dashboard');
-    })->name('store.dashboard');
-});
-
 Route::get('language/{locale}', function ($locale) {
     $supportedLocales = config('app.supported_locales');
 
@@ -48,7 +34,7 @@ Route::get('language/{locale}', function ($locale) {
     }
 
     app()->setLocale($locale);
-    
+
     return redirect()->back()->withCookie(cookie('locale', $locale, 60 * 24 * 365));
 });
 require __DIR__ . '/settings.php';

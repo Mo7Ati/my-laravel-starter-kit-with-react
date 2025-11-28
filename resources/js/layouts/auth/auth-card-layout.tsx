@@ -21,7 +21,10 @@ export default function AuthCardLayout({
 }>) {
 
     return (
-        <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
+        <div className="relative flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
+            <div className="absolute right-6 top-6 md:right-10 md:top-10">
+                <LanguageSwitch />
+            </div>
             <div className="flex w-full max-w-md flex-col gap-6">
                 <Link
                     href={'/'}

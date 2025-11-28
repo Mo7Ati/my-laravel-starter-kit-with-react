@@ -21,23 +21,18 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        if (isAdminPanel()) {
-            $panel = PanelsEnum::ADMIN->value;
-            config([
-                'fortify.guard' => $panel,
-                'fortify.home' => $panel,
-                'fortify.passwords' => $panel,
-                'fortify.prefix' => $panel,
-            ]);
-        } elseif (isStorePanel()) {
-            $panel = PanelsEnum::STORE->value;
-            config([
-                'fortify.guard' => $panel,
-                'fortify.home' => $panel,
-                'fortify.passwords' => $panel,
-                'fortify.prefix' => $panel,
-            ]);
+        $panel = getPanel();
+
+        if (!$panel) {
+            return;
         }
+
+        config([
+            'fortify.guard' => $panel,
+            'fortify.home' => $panel,
+            'fortify.passwords' => $panel,
+            'fortify.prefix' => $panel,
+        ]);
     }
 
     /**

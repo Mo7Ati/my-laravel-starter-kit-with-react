@@ -55,12 +55,12 @@ export default function Login({
                             </div>
 
                             <div className="grid gap-2">
-                                <div className="flex items-center">
+                                <div className="flex justify-between">
                                     <Label htmlFor="password">{t('password')}</Label>
                                     {canResetPassword && (
                                         <TextLink
                                             href={`/${panel}/forgot-password`}
-                                            className="ml-auto text-sm"
+                                            className="text-sm"
                                             tabIndex={5}
                                         >
                                             {t('forgot_password')}

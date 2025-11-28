@@ -15,7 +15,7 @@ import { Link, usePage } from '@inertiajs/react';
 import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
 import AppLogo from './app-logo';
 import { getPanelNavItems } from '@/lib/utils';
-import { PanelType } from '@/types/dashboard';
+import { PanelType } from '@/types';
 
 
 const footerNavItems: NavItem[] = [
@@ -36,7 +36,6 @@ export function AppSidebar() {
     const { panel, currentLocale } = page.props;
     const mainNavItems: NavItem[] = getPanelNavItems(panel);
 
-    const dashboardUrl = panel === PanelType.ADMIN ? '/admin' : panel === PanelType.STORE ? '/store' : '/dashboard';
     const isRTL = currentLocale === 'ar';
 
     return (
@@ -45,7 +44,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href={dashboardUrl} prefetch>
+                            <Link href={`/${panel}`} prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>
