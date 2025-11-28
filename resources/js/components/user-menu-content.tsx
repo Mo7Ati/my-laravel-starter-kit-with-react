@@ -6,6 +6,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { UserInfo } from '@/components/user-info';
 import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
+import { cn } from '@/lib/utils';
 import { SharedData, type User } from '@/types';
 import { Link, router, usePage } from '@inertiajs/react';
 import { LogOut, Settings } from 'lucide-react';
@@ -22,27 +23,28 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
         router.flushAll();
     };
     const page = usePage<SharedData>();
-    const { panel } = page.props;
+    const { panel, currentLocale } = page.props;
+    const isRTL = currentLocale === 'ar';
 
     return (
         <>
             <DropdownMenuLabel className="p-0 font-normal">
-                <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                    <UserInfo user={user} showEmail={true} />
+                <div className={cn('flex items-center gap-2 px-1 py-1.5 text-sm', isRTL && 'flex-row-reverse')}>
+                    <UserInfo user={user} showEmail={true} isRTL={isRTL} />
                 </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
                 <DropdownMenuItem asChild>
                     <Link
-                        className="block w-full"
+                        className={cn('flex w-full items-center', isRTL && 'flex-row-reverse')}
                         href={`/${panel}/settings/profile`}
                         as="button"
                         prefetch
                         onClick={cleanup}
                     >
-                        <Settings className="mr-2" />
-                        Settings
+                        <Settings className="h-4 w-4 shrink-0" />
+                        <span>Settings</span>
                     </Link>
                 </DropdownMenuItem>
             </DropdownMenuGroup>
@@ -50,14 +52,14 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
             <DropdownMenuItem asChild>
                 <Link
                     method='post'
-                    className="block w-full"
+                    className={cn('flex w-full items-center', isRTL && 'flex-row-reverse')}
                     href={`/${panel}/logout`}
                     as="button"
                     onClick={handleLogout}
                     data-test="logout-button"
                 >
-                    <LogOut className="mr-2" />
-                    Log out
+                    <LogOut className="h-4 w-4 shrink-0" />
+                    <span>Log out</span>
                 </Link>
             </DropdownMenuItem>
         </>

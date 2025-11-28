@@ -6,6 +6,7 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
+import LanguageSwitch from '@/components/ui/language-switch';
 import { Link } from '@inertiajs/react';
 import { type PropsWithChildren } from 'react';
 

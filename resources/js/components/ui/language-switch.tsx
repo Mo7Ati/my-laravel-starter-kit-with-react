@@ -28,6 +28,7 @@ const LanguageSwitch = () => {
                     {locales[currentLocale] || currentLocale}
                 </Button>
             </DropdownMenuTrigger>
+
             <DropdownMenuContent className="w-48">
                 <DropdownMenuRadioGroup
                     onValueChange={handleLanguageChange}
