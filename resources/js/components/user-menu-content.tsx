@@ -10,12 +10,14 @@ import { cn } from '@/lib/utils';
 import { SharedData, type User } from '@/types';
 import { Link, router, usePage } from '@inertiajs/react';
 import { LogOut, Settings } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface UserMenuContentProps {
     user: User;
 }
 
 export function UserMenuContent({ user }: UserMenuContentProps) {
+    const { t } = useTranslation("common");
     const cleanup = useMobileNavigation();
 
     const handleLogout = () => {
@@ -44,7 +46,7 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
                         onClick={cleanup}
                     >
                         <Settings className="h-4 w-4 shrink-0" />
-                        <span>Settings</span>
+                        <span>{t('settings')}</span>
                     </Link>
                 </DropdownMenuItem>
             </DropdownMenuGroup>
@@ -59,7 +61,7 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
                     data-test="logout-button"
                 >
                     <LogOut className="h-4 w-4 shrink-0" />
-                    <span>Log out</span>
+                    <span>{t('logout')}</span>
                 </Link>
             </DropdownMenuItem>
         </>

@@ -8,25 +8,25 @@ import { Form, Head } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 
 export default function ConfirmPassword() {
-    const { t } = useTranslation();
+    const { t } = useTranslation("auth");
 
     return (
         <AuthLayout
-            title={t('auth.confirm_password_title')}
-            description={t('auth.confirm_password_description')}
+            title={t('confirm_password_title')}
+            description={t('confirm_password_description')}
         >
-            <Head title={t('auth.confirm_password_title')} />
+            <Head title={t('confirm_password_title')} />
 
             <Form method="post" action={'/admin/user/confirm-password'} resetOnSuccess={['password']}>
                 {({ processing, errors }) => (
                     <div className="space-y-6">
                         <div className="grid gap-2">
-                            <Label htmlFor="password">{t('auth.password')}</Label>
+                            <Label htmlFor="password">{t('password')}</Label>
                             <Input
                                 id="password"
                                 type="password"
                                 name="password"
-                                placeholder={t('auth.password_placeholder')}
+                                placeholder={t('password_placeholder')}
                                 autoComplete="current-password"
                                 autoFocus
                             />
@@ -41,7 +41,7 @@ export default function ConfirmPassword() {
                                 data-test="confirm-password-button"
                             >
                                 {processing && <Spinner />}
-                                {t('auth.confirm_password')}
+                                {t('confirm_password')}
                             </Button>
                         </div>
                     </div>

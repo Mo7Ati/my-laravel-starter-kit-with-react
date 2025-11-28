@@ -12,26 +12,26 @@ import { useTranslation } from 'react-i18next';
 export default function SettingsLayout({ children }: PropsWithChildren) {
     const page = usePage<SharedData>();
     const { panel } = page.props;
-    const { t } = useTranslation();
+    const { t } = useTranslation('settings');
 
     const sidebarNavItems: NavItem[] = [
         {
-            title: t('common.profile'),
+            title: t('sections.profile'),
             href: `/${panel}/settings/profile`,
             icon: null,
         },
         {
-            title: t('common.password'),
+            title: t('sections.password'),
             href: `/${panel}/settings/password`,
             icon: null,
         },
         {
-            title: t('common.two_factor_auth'),
+            title: t('sections.two_factor_auth'),
             href: `/${panel}/settings/two-factor`,
             icon: null,
         },
         {
-            title: t('common.appearance'),
+            title: t('sections.appearance'),
             href: `/${panel}/settings/appearance`,
             icon: null,
         },
@@ -47,8 +47,8 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
     return (
         <div className="px-4 py-6">
             <Heading
-                title={t('common.settings')}
-                description={t('settings.description')}
+                title={t('title')}
+                description={t('description')}
             />
 
             <div className="flex flex-col lg:flex-row lg:space-x-12">

@@ -6,25 +6,27 @@ import { SharedData, type BreadcrumbItem } from '@/types';
 
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
+import { useTranslation } from 'react-i18next';
 
 
 export default function Appearance() {
+    const { t } = useTranslation('settings');
     const { panel } = usePage<SharedData>().props;
     const breadcrumbs: BreadcrumbItem[] = [
         {
-            title: 'Appearance settings',
+            title: t('appearance.page_title'),
             href: `/${panel}/settings/appearance`,
         },
     ];
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Appearance settings" />
+            <Head title={t('appearance.page_title')} />
 
             <SettingsLayout>
                 <div className="space-y-6">
                     <HeadingSmall
-                        title="Appearance settings"
-                        description="Update your account's appearance settings"
+                        title={t('appearance.heading_title')}
+                        description={t('appearance.heading_description')}
                     />
                     <AppearanceTabs />
                 </div>

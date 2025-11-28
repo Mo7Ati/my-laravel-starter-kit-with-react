@@ -3,6 +3,7 @@ import { PanelType } from '@/types/dashboard';
 import { InertiaLinkProps } from '@inertiajs/react';
 import { type ClassValue, clsx } from 'clsx';
 import { BookOpen, LayoutGrid, ShoppingBag, UserCog, Users } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
@@ -28,40 +29,41 @@ export function getPanelNavItems(panel: PanelType): NavItem[] {
     }
 }
 
-
 export function getAdminPanelNavItems(): NavItem[] {
+    const { t } = useTranslation("common");
     return [
         {
-            title: 'Dashboard',
+            title: t('nav_labels.dashboard'),
             href: '/admin',
             icon: LayoutGrid,
         },
         {
-            title: 'Users',
+            title: t('nav_labels.users'),
             href: '/admin/users',
             icon: Users,
         },
         {
-            title: 'Admins',
+            title: t('nav_labels.admins'),
             href: '/admin/admins',
             icon: UserCog,
         },
     ];
 }
 export function getStorePanelNavItems(): NavItem[] {
+    const { t } = useTranslation("common");
     return [
         {
-            title: 'Dashboard',
+            title: t('nav_labels.dashboard'),
             href: '/store',
             icon: LayoutGrid,
         },
         {
-            title: 'Products',
+            title: t('nav_labels.products'),
             href: '/store/products',
             icon: BookOpen,
         },
         {
-            title: 'Orders',
+            title: t('nav_labels.orders'),
             href: '/store/orders',
             icon: ShoppingBag,
         },
