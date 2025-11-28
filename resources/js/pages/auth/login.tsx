@@ -6,7 +6,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/auth-layout';
-import { Form, Head } from '@inertiajs/react';
+import { SharedData } from '@/types';
+import { Form, Head, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 
 interface LoginProps {
@@ -20,18 +21,18 @@ export default function Login({
     canResetPassword,
     canRegister,
 }: LoginProps) {
-    const { t } = useTranslation();
-
+    const { t } = useTranslation("auth");
+    const { panel } = usePage<SharedData>().props;
     return (
         <AuthLayout
-            title={t('auth.login_title')}
-            description={t('auth.login_description')}
+            title={t('login_title')}
+            description={t('login_description')}
         >
-            <Head title={t('auth.login')} />
+            <Head title={t('login')} />
 
             <Form
-                method='post'
-                action='/store/login'
+                method="post"
+                action={`/${panel}/login`}
                 resetOnSuccess={['password']}
                 className="flex flex-col gap-6"
             >
@@ -39,7 +40,7 @@ export default function Login({
                     <>
                         <div className="grid gap-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="email">{t('auth.email_address')}</Label>
+                                <Label htmlFor="email">{t('email_address')}</Label>
                                 <Input
                                     id="email"
                                     type="email"
@@ -48,21 +49,21 @@ export default function Login({
                                     autoFocus
                                     tabIndex={1}
                                     autoComplete="email"
-                                    placeholder={t('auth.email_placeholder')}
+                                    placeholder={t('email_placeholder')}
                                 />
                                 <InputError message={errors.email} />
                             </div>
 
                             <div className="grid gap-2">
                                 <div className="flex items-center">
-                                    <Label htmlFor="password">{t('auth.password')}</Label>
+                                    <Label htmlFor="password">{t('password')}</Label>
                                     {canResetPassword && (
                                         <TextLink
-                                            href={'/store/forgot-password'}
+                                            href={`/${panel}/forgot-password`}
                                             className="ml-auto text-sm"
                                             tabIndex={5}
                                         >
-                                            {t('auth.forgot_password')}
+                                            {t('forgot_password')}
                                         </TextLink>
                                     )}
                                 </div>
@@ -73,7 +74,7 @@ export default function Login({
                                     required
                                     tabIndex={2}
                                     autoComplete="current-password"
-                                    placeholder={t('auth.password_placeholder')}
+                                    placeholder={t('password_placeholder')}
                                 />
                                 <InputError message={errors.password} />
                             </div>
@@ -84,7 +85,7 @@ export default function Login({
                                     name="remember"
                                     tabIndex={3}
                                 />
-                                <Label htmlFor="remember">{t('auth.remember_me')}</Label>
+                                <Label htmlFor="remember">{t('remember_me')}</Label>
                             </div>
 
                             <Button
@@ -95,15 +96,15 @@ export default function Login({
                                 data-test="login-button"
                             >
                                 {processing && <Spinner />}
-                                {t('auth.login')}
+                                {t('login')}
                             </Button>
                         </div>
 
                         {canRegister && (
                             <div className="text-center text-sm text-muted-foreground">
-                                {t('auth.dont_have_account')}{' '}
-                                <TextLink href={'/store/register'} tabIndex={5}>
-                                    {t('auth.sign_up')}
+                                {t('dont_have_account')}{' '}
+                                <TextLink href={`/${panel}/register`} tabIndex={5}>
+                                    {t('sign_up')}
                                 </TextLink>
                             </div>
                         )}

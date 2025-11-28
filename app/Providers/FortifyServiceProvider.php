@@ -22,18 +22,20 @@ class FortifyServiceProvider extends ServiceProvider
     public function register(): void
     {
         if (isAdminPanel()) {
+            $panel = PanelsEnum::ADMIN->value;
             config([
-                'fortify.guard' => 'admin',
-                'fortify.home' => 'admin',
-                'fortify.passwords' => 'admins',
-                'fortify.prefix' => 'admin',
+                'fortify.guard' => $panel,
+                'fortify.home' => $panel,
+                'fortify.passwords' => $panel,
+                'fortify.prefix' => $panel,
             ]);
         } elseif (isStorePanel()) {
+            $panel = PanelsEnum::STORE->value;
             config([
-                'fortify.guard' => 'store',
-                'fortify.home' => 'store',
-                'fortify.passwords' => 'stores',
-                'fortify.prefix' => 'store',
+                'fortify.guard' => $panel,
+                'fortify.home' => $panel,
+                'fortify.passwords' => $panel,
+                'fortify.prefix' => $panel,
             ]);
         }
     }
@@ -63,7 +65,7 @@ class FortifyServiceProvider extends ServiceProvider
     private function configureViews(): void
     {
         Fortify::loginView(function (Request $request) {
-            return Inertia::render($this->view('login'), [
+            return Inertia::render("auth/login", [
                 'canResetPassword' => Features::enabled(Features::resetPasswords()),
                 'canRegister' => Features::enabled(Features::registration()),
                 'status' => $request->session()->get('status'),
@@ -72,7 +74,7 @@ class FortifyServiceProvider extends ServiceProvider
 
         Fortify::resetPasswordView(
             fn(Request $request) =>
-            Inertia::render($this->view('reset-password'), [
+            Inertia::render("auth/reset-password", [
                 'email' => $request->email,
                 'token' => $request->route('token'),
             ])
@@ -80,28 +82,28 @@ class FortifyServiceProvider extends ServiceProvider
 
         Fortify::requestPasswordResetLinkView(
             fn(Request $request) =>
-            Inertia::render($this->view('forgot-password'), [
+            Inertia::render("auth/forgot-password", [
                 'status' => $request->session()->get('status'),
             ])
         );
 
         Fortify::verifyEmailView(
             fn(Request $request) =>
-            Inertia::render($this->view('verify-email'), [
+            Inertia::render("auth/verify-email", [
                 'status' => $request->session()->get('status'),
             ])
         );
 
-        Fortify::registerView(fn() => Inertia::render($this->view('register')));
+        Fortify::registerView(fn() => Inertia::render("auth/register"));
 
         Fortify::twoFactorChallengeView(
             fn() =>
-            Inertia::render($this->view('two-factor-challenge'))
+            Inertia::render("auth/two-factor-challenge")
         );
 
         Fortify::confirmPasswordView(
             fn() =>
-            Inertia::render($this->view('confirm-password'))
+            Inertia::render("auth/confirm-password")
         );
     }
 
@@ -120,13 +122,5 @@ class FortifyServiceProvider extends ServiceProvider
 
             return Limit::perMinute(5)->by($throttleKey);
         });
-    }
-
-    private function view(string $page): string
-    {
-        if (getPanel() === null) {
-            abort(404);
-        }
-        return getPanel() . "/auth/{$page}";
     }
 }

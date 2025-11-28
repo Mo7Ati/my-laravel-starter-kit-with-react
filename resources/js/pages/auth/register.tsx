@@ -1,5 +1,4 @@
-import { Form, Head } from '@inertiajs/react';
-
+import { Form, Head, usePage } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
@@ -8,19 +7,20 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/auth-layout';
 import { useTranslation } from 'react-i18next';
+import { SharedData } from '@/types';
 
 export default function Register() {
-    const { t } = useTranslation();
-
+    const { t } = useTranslation("auth");
+    const { panel } = usePage<SharedData>().props;
     return (
         <AuthLayout
-            title={t('auth.register_title')}
-            description={t('auth.register_description')}
+            title={t('register_title')}
+            description={t('register_description')}
         >
-            <Head title={t('auth.register')} />
+            <Head title={t('register')} />
             <Form
-                method='post'
-                action='/store/register'
+                method="post"
+                action={`/${panel}/register`}
                 resetOnSuccess={['password', 'password_confirmation']}
                 disableWhileProcessing
                 className="flex flex-col gap-6"
@@ -29,7 +29,7 @@ export default function Register() {
                     <>
                         <div className="grid gap-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="name">{t('auth.name')}</Label>
+                                <Label htmlFor="name">{t('name')}</Label>
                                 <Input
                                     id="name"
                                     type="text"
@@ -38,7 +38,7 @@ export default function Register() {
                                     tabIndex={1}
                                     autoComplete="name"
                                     name="name"
-                                    placeholder={t('auth.full_name_placeholder')}
+                                    placeholder={t('full_name_placeholder')}
                                 />
                                 <InputError
                                     message={errors.name}
@@ -47,7 +47,7 @@ export default function Register() {
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="email">{t('auth.email_address')}</Label>
+                                <Label htmlFor="email">{t('email_address')}</Label>
                                 <Input
                                     id="email"
                                     type="email"
@@ -55,13 +55,13 @@ export default function Register() {
                                     tabIndex={2}
                                     autoComplete="email"
                                     name="email"
-                                    placeholder={t('auth.email_placeholder')}
+                                    placeholder={t('email_placeholder')}
                                 />
                                 <InputError message={errors.email} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="password">{t('auth.password')}</Label>
+                                <Label htmlFor="password">{t('password')}</Label>
                                 <Input
                                     id="password"
                                     type="password"
@@ -69,14 +69,14 @@ export default function Register() {
                                     tabIndex={3}
                                     autoComplete="new-password"
                                     name="password"
-                                    placeholder={t('auth.password_placeholder')}
+                                    placeholder={t('password_placeholder')}
                                 />
                                 <InputError message={errors.password} />
                             </div>
 
                             <div className="grid gap-2">
                                 <Label htmlFor="password_confirmation">
-                                    {t('auth.confirm_password')}
+                                    {t('confirm_password')}
                                 </Label>
                                 <Input
                                     id="password_confirmation"
@@ -85,7 +85,7 @@ export default function Register() {
                                     tabIndex={4}
                                     autoComplete="new-password"
                                     name="password_confirmation"
-                                    placeholder={t('auth.confirm_password_placeholder')}
+                                    placeholder={t('confirm_password_placeholder')}
                                 />
                                 <InputError
                                     message={errors.password_confirmation}
@@ -99,14 +99,14 @@ export default function Register() {
                                 data-test="register-user-button"
                             >
                                 {processing && <Spinner />}
-                                {t('auth.create_account')}
+                                {t('create_account')}
                             </Button>
                         </div>
 
                         <div className="text-center text-sm text-muted-foreground">
-                            {t('auth.already_have_account')}{' '}
-                            <TextLink href={'/store/login'} tabIndex={6}>
-                                {t('auth.login')}
+                            {t('already_have_account')}{' '}
+                            <TextLink href={`/${panel}/login`} tabIndex={6}>
+                                {t('login')}
                             </TextLink>
                         </div>
                     </>

@@ -37,16 +37,6 @@ export function getAdminPanelNavItems(): NavItem[] {
             href: '/admin',
             icon: LayoutGrid,
         },
-        {
-            title: t('nav_labels.users'),
-            href: '/admin/users',
-            icon: Users,
-        },
-        {
-            title: t('nav_labels.admins'),
-            href: '/admin/admins',
-            icon: UserCog,
-        },
     ];
 }
 export function getStorePanelNavItems(): NavItem[] {
@@ -56,16 +46,6 @@ export function getStorePanelNavItems(): NavItem[] {
             title: t('nav_labels.dashboard'),
             href: '/store',
             icon: LayoutGrid,
-        },
-        {
-            title: t('nav_labels.products'),
-            href: '/store/products',
-            icon: BookOpen,
-        },
-        {
-            title: t('nav_labels.orders'),
-            href: '/store/orders',
-            icon: ShoppingBag,
         },
     ];
 }
